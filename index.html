@@ -1,0 +1,176 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mappy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-database.js"></script>
+    <!-- Materialize -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+        <!-- Math.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.4.0/math.min.js"></script>
+        <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+        integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+        crossorigin=""></script>
+   <!-- MapBox -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+<!--Google Font-->
+<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+        crossorigin="anonymous">
+    <!-- materialize icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Our styles and script -->
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />  
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="row center">
+                    <h1 class='header orange-text'>Tasty Maps</h1>
+
+                        <div id = "cloud"></div>
+
+                        <button data-target="modal1" class="yellow darken-2 waves-effect waves-light btn" id="signUp">Sign Up</button>
+                        <button data-target="modal2" class="yellow darken-2 waves-effect waves-light btn" id="logIn">Login</button>
+                          <ul id="nav-mobile" class="right hide-on-med-and-down">
+                                <button class="yellow darken-2 waves-effect waves-light btn" id="logOut">Log Out</button>
+  
+
+                          </ul>
+                </div> 
+            </div>
+        </div>
+    </header>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4 id="signUpTitle">Sign Up</h4>
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="userNameSignUp" type="text" class="validate">
+                        <label for="userNameSignUp">User Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="emailSignUp" type="text" class="validate">
+                        <label for="emailSignUp">Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="passwordSignUp" type="" class="validate">
+                        <label for="passwordSignUp">Password</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="submitOne">Submit</a>
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="cancelOne">Cancel</a>
+        </div>
+    </div>
+
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <h4 id="logInTitle">Log In</h4>
+            <form class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="emailLogIn" type="email" class="validate">
+                    <label for="emailLogIn">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="passwordLogIn" type="password" class="validate">
+                    <label for="passwordLogIn">Password</label>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="submitTwo">Submit</a>
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="cancelTwo">Cancel</a>
+
+        </div>
+</div>
+    <br>
+    <br>
+    <div class="container center" id="apiInfo">
+        <div class="card-title">Search by location or click locate to find current location</div>
+          <form>
+              <div class="form-group center" id="formList">
+                <input type="search" class="form-control center" id="locationSearch" aria-describedby="searchHelp" placeholder="123 Main Street, Anytown, AZ">
+              </div>
+
+                <button type="submit" class="yellow darken-2 waves-effect waves-light btn" id="addressButton">Submit</button>
+                <button type="submit" class="yellow darken-2 waves-effect waves-light btn" id="locationButton">Your Location <i class="large material-icons">add_location</i>
+          </form>
+    </div>
+
+    <br>
+
+    <div class="container" id="selCuisine">
+        <div class="row center">
+            <div class="col s12 m6">
+                <label><b>Select Cuisine</b></label>
+                <select class="browser-default" id="cuisineSel">
+                    <option value="" disabled selected>Choose your cuisine</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s6" id ="leftPane">
+              <div id="leftCard">
+                <div class="card-img " id="mapid"></div>
+                    <div class="card-content" id="map-loc">
+                        </div>
+                    <div class="card-content" id="loc-text">
+                        </div>
+              </div>
+            </div>
+
+
+            <div class="col s6">
+                    <div class="right-align" id="zamatoDiv">
+                        </div>
+                <div class="card-text" id="zamato">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="assets/javascript/main.js"></script>
+
+
+    </body>
+
+    </html>
+
