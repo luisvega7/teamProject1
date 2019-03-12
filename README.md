@@ -29,4 +29,4 @@ In this project we were tasked with the following objectives:
      
      Never go hungry or get wet on a patio ever again with tasty maps!
      
-     [See it here!](https://mochacosine1206.github.io/teamProject1/)
+     [See it here!](https://luisvega7.github.io/teamProject1/)
